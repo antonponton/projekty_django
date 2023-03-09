@@ -17,5 +17,15 @@ from django.contrib import admin
 from django.urls import path
 
 urlpatterns = [
+    path('', include('home.urls')),
     path('admin/', admin.site.urls),
 ]
+
+urlpatterns += [
+    path('favicon.ico', serve, {
+            'path': 'favicon.ico',
+            'document_root': os.path.join(BASE_DIR, 'home/static'),
+        }
+    ),
+]
+
