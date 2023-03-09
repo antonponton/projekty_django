@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     #my apps
-    'portfolio_marta.apps.Portfolio_martaConfig'
+    'portfolio_marta.apps.PortfolioMartaConfig'
 ]
 
 MIDDLEWARE = [
