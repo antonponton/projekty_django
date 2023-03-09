@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     #my apps
-    'portfolio_marta.apps.PortfolioMartaConfig'
+    'portfolio_marta.apps.PortfolioMartaConfig',
     'home.apps.HomeConfig'
 ]
 
