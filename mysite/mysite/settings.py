@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     
     #my apps
     'portfolio_marta.apps.PortfolioMartaConfig'
+    'home.apps.HomeConfig'
 ]
 
 MIDDLEWARE = [
