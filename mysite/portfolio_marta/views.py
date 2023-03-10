@@ -6,10 +6,8 @@ from portfolio_marta.owner import OwnerListView, OwnerDetailView, OwnerDeleteVie
 from django.views import View
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
-from django.contrib.humanize.templatetags.humanize import naturaltime
 
 class ArtListView(OwnerListView):
     model = Art
@@ -66,11 +64,11 @@ class ArtUpdateView(LoginRequiredMixin, View):
         form.save_m2m()
         return redirect(self.success_url)
 
-class AdDeleteView(OwnerDeleteView):
+class ArtDeleteView(OwnerDeleteView):
     model = Art
 
 def stream_file(request, pk):
-    pic = get_object_or_404(Ad, id=pk)
+    pic = get_object_or_404(Art, id=pk)
     response = HttpResponse()
     response['Content-Type'] = pic.content_type
     response['Content-Length'] = len(pic.picture)
