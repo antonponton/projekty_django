@@ -1,15 +1,20 @@
 <h1>Portfolio</h1>
 <p>
-    {% if ad_list %}
+    {% if art_list %}
     <ul>
-      {% for ad in ad_list %}
+      {% for art in art_list %}
         <li>
-            {{ ad.title }}
+            <a href="{% url 'portfolio_marta:art_detail'  art.id %}">{{ art.title }}</a>
+            {% if art.owner == user %}
+            (<a href="{% url 'portfolio_marta:art_update' art.id %}">Edit</a> |
+            <a href="{% url 'portfolio_marta:art_delete' art.id %}">Delete</a>)
+            {% endif %}
+            
             <div style="left:10px">
-                {% if ad.text|length < 100 %}
-                    {{ ad.text }}
+                {% if art.text|length < 100 %}
+                    {{ art.text }}
                 {% else %}
-                    {{ ad.text|slice:"0:99" }}
+                    {{ art.text|slice:"0:99" }}
                 {% endif %}
             </div>
         </li>
@@ -18,4 +23,12 @@
     {% else %}
     <p>There are no art in the database.</p>
     {% endif %}
+    <p>
+        <a href="{% url 'portfolio_marta:art_create' %}">Add an Art</a> |
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}?next={% url 'portfolio_marta:all' %}">Logout</a>
+        {% else %}
+        <a href="{% url 'login' %}?next={% url 'portfolio_marta:all' %}">Login</a>
+        {% endif %}
+        </p>
 </p>
