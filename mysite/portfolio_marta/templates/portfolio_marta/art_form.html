@@ -1,4 +1,7 @@
-{% load crispy_forms_tags %}
+<head>
+  {% load crispy_forms_tags %}
+</head>
+<body>
 <p>
     <form action="" method="post" id="upload_form" enctype="multipart/form-data">
       {% csrf_token %}
@@ -19,3 +22,4 @@
     }
   });
   </script>
+  </body>
