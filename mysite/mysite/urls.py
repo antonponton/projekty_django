@@ -17,11 +17,14 @@ import os
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.static import serve
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', include('home.urls')),
     path('portfolio_marta/', include('portfolio_marta.urls')), 
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),  
+
 ]
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
