@@ -1,3 +1,6 @@
+{% extends "base_menu.html" %}
+{% block title %}Portfolio{% endblock %}
+{% block content %}
 <h1>Portfolio</h1>
 <p>
     {% if art_list %}
@@ -32,3 +35,4 @@
         {% endif %}
         </p>
 </p>
+{% endblock %}
