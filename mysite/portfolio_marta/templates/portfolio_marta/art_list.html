@@ -1,12 +1,13 @@
 {% extends "base_menu.html" %}
 {% block title %}Portfolio{% endblock %}
 {% block content %}
-<h1>Portfolio</h1>
+<h1>List of art pieces:</h1>
 <p>
     {% if art_list %}
-    <ul>
+    <ul style="list-style-type: none">
       {% for art in art_list %}
         <li>
+            
             <a href="{% url 'portfolio_marta:art_detail'  art.id %}">{{ art.title }}</a>
             {% if art.owner == user %}
             (<a href="{% url 'portfolio_marta:art_update' art.id %}">Edit</a> |
@@ -20,19 +21,18 @@
                     {{ art.text|slice:"0:99" }}
                 {% endif %}
             </div>
+            {% if art.content_type %}
+            <a href="{% url 'portfolio_marta:art_detail'  art.id %}"><img  style="width: 30%" src="{% url 'portfolio_marta:art_picture' art.id %}"></a>
+            {% endif %}
+            <p>
+            </p>
+            <p>
+            </p>
         </li>
         {% endfor %}
     </ul>
     {% else %}
     <p>There are no art in the database.</p>
     {% endif %}
-    <p>
-        <a href="{% url 'portfolio_marta:art_create' %}">Add an Art</a> |
-        {% if user.is_authenticated %}
-        <a href="{% url 'logout' %}?next={% url 'portfolio_marta:all' %}">Logout</a>
-        {% else %}
-        <a href="{% url 'login' %}?next={% url 'portfolio_marta:all' %}">Login</a>
-        {% endif %}
-        </p>
-</p>
+    
 {% endblock %}
