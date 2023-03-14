@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block navbar %}
+{% load app_tags %}
+<nav>
+    <ul>
+      <div class="left">
+      <li>
+      <a href="{% url 'portfolio_marta:all' %}" >Portfolio</a>
+      </li>
+    </div>
+        {% if user.is_authenticated %}
+        <li>
+        <div class="right">
+        <div class="dropdown">
+        
+            <button class="dropbtn"><img style="width: 25px;" src="{{ user|gravatar:60 }}"/> Menu</button>
+            <div class="dropdown-content">
+                <a href="{% url 'portfolio_marta:art_create' %}" >Add picture</a>
+                <a href="{% url 'logout' %}?next={% url 'portfolio_marta:all' %}">Logout</a>
+        
+        </div>
+        </div>
+        </li>
+        {% else %}
+        <div class="right">
+        <li>
+        <a href="{% url 'login' %}?next={% url 'portfolio_marta:all' %}">Login</a>
+        </li>
+        </div>
+
+        {% endif %}
+    </ul>
+</nav>
+{% endblock %}

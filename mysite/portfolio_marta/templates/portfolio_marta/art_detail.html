@@ -1,5 +1,7 @@
+{% extends "base_menu.html" %}
+{% block title %}Portfolio{% endblock %}
 {% load humanize %} 
-<head>
+{% block head %}
     <style>
         .overlay{
           position: fixed;
@@ -12,9 +14,9 @@
           background-color: rgba(0,0,0,0.5); /*dim the background*/
         }
         </style>
-</head>
-<body>
-    {% if art.content_type %}
+{% endblock %}
+{% block content %}
+{% if art.content_type %}
 <div id="overlay" class="overlay" style="text-align: center;"
    onclick="document.getElementById('overlay').style.display = 'none';" >
 <img style="width:90%;margin-top: 50px; border:3px solid black;" src="{% url 'portfolio_marta:art_picture' art.id %}">
@@ -38,4 +40,4 @@
 <p>
     <a href="{% url 'portfolio_marta:all' %}">All arts</a>
 </p>
-</body>
+{% endblock %}

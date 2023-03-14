@@ -1,7 +1,8 @@
-<head>
-  {% load crispy_forms_tags %}
-</head>
-<body>
+{% extends "base_menu.html" %}
+{% block title %}Portfolio{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+
 <p>
     <form action="" method="post" id="upload_form" enctype="multipart/form-data">
       {% csrf_token %}
@@ -22,4 +23,4 @@
     }
   });
   </script>
-  </body>
+{% endblock %}
