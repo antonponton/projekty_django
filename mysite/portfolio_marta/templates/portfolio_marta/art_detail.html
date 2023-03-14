@@ -4,7 +4,7 @@
 {% block head %}
     <style>
         .overlay{
-          position: fixed;
+          position: absolute;
           top: 0;
           left: 0;
           width: 100%;
@@ -35,7 +35,7 @@
     onclick="document.getElementById('overlay').style.display = 'block';">
 {% endif %}
 <p>
-{{ ad.text }}
+{{ art.text }}
 </p>
 <p>
     <a href="{% url 'portfolio_marta:all' %}">All arts</a>
