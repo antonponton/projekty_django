@@ -1,5 +1,5 @@
 from django import forms
-from portfolio_marta.models import Art
+from portfolio_marta.models import Art, Type
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 class CreateForm(forms.ModelForm):
@@ -11,7 +11,7 @@ class CreateForm(forms.ModelForm):
 
     class Meta:
         model = Art
-        fields = ['title', 'text', 'picture',] 
+        fields = ['title', 'text', 'picture','type'] 
 
     # Validate the size of the picture
     def clean(self):
@@ -38,3 +38,7 @@ class CreateForm(forms.ModelForm):
             self.save_m2m()
 
         return instance
+class TypeForm(forms.ModelForm):
+    class Meta:
+        model = Type
+        fields = ['name'] 

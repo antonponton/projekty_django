@@ -12,5 +12,12 @@ urlpatterns = [
     path('art/<int:pk>/delete',
         views.ArtDeleteView.as_view(success_url=reverse_lazy('portfolio_marta:all')), name='art_delete'),
     path('art_picture/<int:pk>', views.stream_file, name='art_picture'),
+    path('types', views.TypeListView.as_view(), name='types'),
+    path('type/create',
+        views.TypeCreateView.as_view(success_url=reverse_lazy('portfolio_marta:all')), name='type_create'),
+    path('type/<int:pk>/update',
+        views.TypeUpdateView.as_view(success_url=reverse_lazy('portfolio_marta:all')), name='type_update'),
+    path('type/<int:pk>/delete',
+        views.TypeDeleteView.as_view(success_url=reverse_lazy('portfolio_marta:all')), name='type_delete'),
 ]
 

@@ -5,7 +5,7 @@
     <ul>
       <div class="left">
       <li>
-      <a style="font-family: Dancing Script, arial, sans-serif; font-size: 35px;" href="{% url 'portfolio_marta:all' %}" >Portfolio Marty G</a>
+      <a style="font-family: Dancing Script, arial, sans-serif; font-size: 3em;" href="{% url 'portfolio_marta:all' %}" >Portfolio Marty G</a>
       </li>
     </div>
         {% if user.is_authenticated %}
@@ -16,6 +16,8 @@
             <button class="dropbtn"><img style="width: 25px;" src="{{ user|gravatar:60 }}"/> Menu</button>
             <div class="dropdown-content">
                 <a href="{% url 'portfolio_marta:art_create' %}" >Add picture</a>
+                <a href="{% url 'portfolio_marta:type_create' %}" >Add type</a>
+                <a href="{% url 'portfolio_marta:types' %}" >Types list</a>
                 <a href="{% url 'logout' %}?next={% url 'portfolio_marta:all' %}">Logout</a>
         
         </div>

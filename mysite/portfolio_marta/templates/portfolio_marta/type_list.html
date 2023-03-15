@@ -1,0 +1,23 @@
+{% extends "base_menu.html" %}
+{% block title %}Portfolio{% endblock %}
+{% block content %}
+<h1>List of types:</h1>
+<p>
+    {% if type_list %}
+    <ul style="list-style-type: none">
+      {% for type in type_list %}
+        <li>
+            
+            {{ type.name}}
+            {% if type.owner == user %}
+            (<a href="{% url 'portfolio_marta:type_update' type.id %}">Edit</a> |
+            <a href="{% url 'portfolio_marta:type_delete' type.id %}">Delete</a>)
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>There are no types in the database.</p>
+    {% endif %}
+    
+{% endblock %}
