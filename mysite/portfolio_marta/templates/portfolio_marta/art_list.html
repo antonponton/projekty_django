@@ -1,10 +1,39 @@
 {% extends "base_menu.html" %}
 {% block title %}Portfolio{% endblock %}
+{% block head %}
+    <style>
+        /* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 30%;
+  padding: 15px;
+}
+
+/* Clear floats after the columns */
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width:600px) {
+  .column {
+    width: 100%;
+  }
+}
+        </style>
+{% endblock %}
 {% block content %}
 <h1>List of art pieces:</h1>
+<div class="row">
+    
 <p>{% if type_list %}
+    
     <ul style="list-style-type: none">
+        
       {% for type in type_list %}
+      <div class="column">
         <li> {{ type.name }}
     {% if art_list %}
     <ul style="list-style-type: none">
@@ -17,7 +46,7 @@
             <a href="{% url 'portfolio_marta:art_delete' art.id %}">Delete</a>)
             {% endif %}
             
-            <div style="left:10px">
+            <div >
                 {% if art.text|length < 100 %}
                     {{ art.text }}
                 {% else %}
@@ -25,12 +54,13 @@
                 {% endif %}
             </div>
             {% if art.content_type %}
-            <a href="{% url 'portfolio_marta:art_detail'  art.id %}"><img  style="width: 30%" src="{% url 'portfolio_marta:art_picture' art.id %}"></a>
+            <a href="{% url 'portfolio_marta:art_detail'  art.id %}"><img  style="width: 50%" src="{% url 'portfolio_marta:art_picture' art.id %}"></a>
             {% endif %}
             <p>
             </p>
             <p>
             </p>
+        
             {% endif %}
         </li>
         {% endfor %}
@@ -39,10 +69,14 @@
     <p>There are no art in the database.</p>
     {% endif %}
         </li>
+    </div>
         {% endfor %}
     </ul>
     {% else %}
     <p>There are no types in the database.</p>
+
     {% endif %}
+    
+    </div>
     
 {% endblock %}
