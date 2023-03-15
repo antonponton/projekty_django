@@ -2,13 +2,16 @@
 {% block title %}Portfolio{% endblock %}
 {% block content %}
 <h1>List of art pieces:</h1>
-<p>
+<p>{% if type_list %}
+    <ul style="list-style-type: none">
+      {% for type in type_list %}
+        <li> {{ type.name }}
     {% if art_list %}
     <ul style="list-style-type: none">
       {% for art in art_list %}
         <li>
-            
-            <a href="{% url 'portfolio_marta:art_detail'  art.id %}">{{ art.title }}</a>
+            {% if art.type == type %}
+            <a href="{% url 'portfolio_marta:art_detail'  art.id %}">{{ art.title }}</a> 
             {% if art.owner == user %}
             (<a href="{% url 'portfolio_marta:art_update' art.id %}">Edit</a> |
             <a href="{% url 'portfolio_marta:art_delete' art.id %}">Delete</a>)
@@ -28,11 +31,18 @@
             </p>
             <p>
             </p>
+            {% endif %}
         </li>
         {% endfor %}
     </ul>
     {% else %}
     <p>There are no art in the database.</p>
+    {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>There are no types in the database.</p>
     {% endif %}
     
 {% endblock %}
