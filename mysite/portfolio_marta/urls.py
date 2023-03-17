@@ -1,9 +1,12 @@
 from django.urls import path, reverse_lazy
 from . import views
+from django.views.generic import TemplateView
 
 app_name='portfolio_marta'
 urlpatterns = [
     path('', views.ArtListView.as_view(), name='all'),
+    path('info', TemplateView.as_view(template_name='portfolio_marta/info.html'), name="info"),
+    path('contact', TemplateView.as_view(template_name='portfolio_marta/contact.html'), name="contact"),
     path('art/<int:pk>', views.ArtDetailView.as_view(), name='art_detail'),
     path('art/create',
         views.ArtCreateView.as_view(success_url=reverse_lazy('portfolio_marta:all')), name='art_create'),

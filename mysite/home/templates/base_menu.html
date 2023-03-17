@@ -7,13 +7,23 @@
       <li>
       <a style="font-family: 'Dancing Script', cursive, arial, sans-serif; font-size: 3em;" href="{% url 'portfolio_marta:all' %}" >Portfolio Marty G</a>
       </li>
+      </div>
+      <div class="right2">
+        <li>
+        <a style="font-family: 'Dancing Script', cursive, arial, sans-serif; font-size: 1em;" href="{% url 'portfolio_marta:info' %}" >Info</a>
+        </li>
+    </div>
+    <div class="right3">
+        <li>
+        <a style="font-family: 'Dancing Script', cursive, arial, sans-serif; font-size: 1em;" href="{% url 'portfolio_marta:contact' %}" >Contact</a>
+        </li>
     </div>
         {% if user.is_authenticated %}
         <li>
         <div class="right">
         <div class="dropdown">
         
-            <button class="dropbtn"><img style="width: 25px;" src="{{ user|gravatar:60 }}"/> Menu</button>
+            <button class="dropbtn" style="font-family: 'Dancing Script', cursive, arial, sans-serif; font-size: 1em;"><img style="width: 25px;" src="{{ user|gravatar:60 }}"/> Menu</button>
             <div class="dropdown-content">
                 <a href="{% url 'portfolio_marta:art_create' %}" >Add picture</a>
                 <a href="{% url 'portfolio_marta:type_create' %}" >Add type</a>
@@ -26,7 +36,7 @@
         {% else %}
         <div class="right">
         <li>
-        <a href="{% url 'login' %}?next={% url 'portfolio_marta:all' %}">Login</a>
+        <a style="font-family: 'Dancing Script', cursive, arial, sans-serif; font-size: 1em;" href="{% url 'login' %}?next={% url 'portfolio_marta:all' %} ">Login</a>
         </li>
         </div>
 

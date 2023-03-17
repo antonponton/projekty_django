@@ -46,6 +46,7 @@ class ArtListView(OwnerListView):
         ctx = {'art_list' : art_list, 'favorites': favorites, 'search': strval, 'type_list' : type_list}
         return render(request, self.template_name, ctx)
 
+
 class ArtDetailView(OwnerDetailView):
     model = Art
     template_name = "portfolio_marta/art_detail.html"
