@@ -12,7 +12,7 @@ class CreateForm(forms.ModelForm):
 
     class Meta:
         model = Art
-        fields = ['title', 'text', 'picture','type'] 
+        fields = ['title', 'text', 'picture','type', 'tags'] 
 
     # Validate the size of the picture
     def clean(self):

@@ -26,6 +26,17 @@
 {% endblock %}
 {% block content %}
 <h1>List of art pieces:</h1>
+<div style="float:right">
+  <!-- https://www.w3schools.com/howto/howto_css_search_button.asp -->
+  <form>
+    <input type="text" placeholder="Search.." name="search"
+    {% if search %} value="{{ search }}" {% endif %}
+    >
+    <button type="submit"><i class="fa fa-search"></i></button>
+  <a href="{% url 'portfolio_marta:all' %}"><i class="fa fa-undo"></i></a>
+  </form>
+  </div>
+
 <div class="row">
     
 <p>{% if type_list %}
@@ -45,7 +56,33 @@
             (<a href="{% url 'portfolio_marta:art_update' art.id %}">Edit</a> |
             <a href="{% url 'portfolio_marta:art_delete' art.id %}">Delete</a>)
             {% endif %}
-            
+            {% if user.is_authenticated %}
+            <!-- Two hrefs with two stacked icons each - one showing and one hidden -->
+            <a href="#" onclick=
+                "favPost('{% url 'portfolio_marta:art_unfavorite' art.id %}', {{ art.id }} );return false;"
+                {% if art.id not in favorites %} 
+                style="display: none;" 
+                {% endif %}
+                id="favorite_star_{{art.id}}">
+                <span class="fa-stack" style="vertical-align: middle;">
+                <i class="fa fa-star fa-stack-1x" style="color: orange;"></i>
+                <i class="fa fa-star-o fa-stack-1x"></i>
+                </span>
+            </a>
+            <!-- the second href -->
+            <a href="#" onclick=
+                "favPost('{% url 'portfolio_marta:art_favorite' art.id %}', {{ art.id }} );return false;"
+                {% if art.id in favorites %}
+                style="display: none;"
+                {% endif %}
+                id="unfavorite_star_{{art.id}}">
+               <span class="fa-stack" style="vertical-align: middle;">
+               <i class="fa fa-star fa-stack-1x" style="display: none; color: orange;"></i>
+               <i class="fa fa-star-o fa-stack-1x"></i>
+               </span>
+            </a>
+            <br/>
+            {% endif %}
             <div >
                 {% if art.text|length < 100 %}
                     {{ art.text }}
@@ -78,5 +115,16 @@
     {% endif %}
     
     </div>
-    
+    <script>
+      function favPost(url, art_id) {
+          console.log('Requesting JSON');
+          $.post(url, {},  function(rowz){
+              console.log(url, 'finished');
+              $("#unfavorite_star_"+art_id).toggle();
+              $("#favorite_star_"+art_id).toggle();
+          }).fail(function(xhr) {
+              alert('Url failed with '+xhr.status+' '+url);
+          });
+      }
+      </script>
 {% endblock %}

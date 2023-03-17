@@ -23,5 +23,9 @@ urlpatterns = [
         views.CommentCreateView.as_view(), name='art_comment_create'),
     path('comment/<int:pk>/delete',
         views.CommentDeleteView.as_view(success_url=reverse_lazy('portfolio_marta')), name='art_comment_delete'),
+    path('art/<int:pk>/favorite',
+        views.AddFavoriteView.as_view(), name='art_favorite'),
+    path('art/<int:pk>/unfavorite',
+        views.DeleteFavoriteView.as_view(), name='art_unfavorite'),
 ]
 

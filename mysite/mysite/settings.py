@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'social_django',
     'rest_framework',
+    'taggit',
     
     #my apps
     'portfolio_marta.apps.PortfolioMartaConfig',
@@ -52,6 +53,8 @@ INSTALLED_APPS = [
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+TAGGIT_CASE_INSENSITIVE = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

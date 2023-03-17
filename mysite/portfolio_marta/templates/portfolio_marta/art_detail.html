@@ -37,6 +37,13 @@
 <p>
 {{ art.text }}
 </p>
+{% if art.tags.all %}
+<p>Tags:
+  {% for tag in art.tags.all %}
+  <span style="border:1px grey solid; background-color: rgb(185, 185, 185);">{{ tag }}</span>
+  {% endfor %}
+</p>
+{% endif %}
 {% if user.is_authenticated %}
 
 <p>
