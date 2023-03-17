@@ -19,5 +19,9 @@ urlpatterns = [
         views.TypeUpdateView.as_view(success_url=reverse_lazy('portfolio_marta:all')), name='type_update'),
     path('type/<int:pk>/delete',
         views.TypeDeleteView.as_view(success_url=reverse_lazy('portfolio_marta:all')), name='type_delete'),
+    path('art/<int:pk>/comment',
+        views.CommentCreateView.as_view(), name='art_comment_create'),
+    path('comment/<int:pk>/delete',
+        views.CommentDeleteView.as_view(success_url=reverse_lazy('portfolio_marta')), name='art_comment_delete'),
 ]
 

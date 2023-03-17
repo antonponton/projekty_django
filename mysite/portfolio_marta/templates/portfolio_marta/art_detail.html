@@ -37,6 +37,27 @@
 <p>
 {{ art.text }}
 </p>
+{% if user.is_authenticated %}
+
+<p>
+{% load crispy_forms_tags %}
+<form method="post" action="{% url 'portfolio_marta:art_comment_create' art.id %}">
+    {% csrf_token %}
+    {{ comment_form|crispy }}
+<input type="submit" value="Submit">
+<input type="submit" value="All Arts" onclick="window.location.href='{% url 'portfolio_marta:all' %}';return false;">
+</form>
+</p>
+{% endif %}
+{% for comment in comments %}
+<p> {{ comment.text }} | {{ comment.owner}}
+({{ comment.updated_at|naturaltime }})
+{% if user == comment.owner %}
+<a href="{% url 'portfolio_marta:art_comment_delete' comment.id %}"><i class="fa fa-trash"></i></a>
+{% endif %}
+</p>
+{% endfor %}
+<p>
 <p>
     <a href="{% url 'portfolio_marta:all' %}">All arts</a>
 </p>

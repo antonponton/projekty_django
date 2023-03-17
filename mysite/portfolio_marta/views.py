@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from portfolio_marta.models import Art, Type
-from portfolio_marta.forms import CreateForm, TypeForm
+from portfolio_marta.models import Art, Type, Comment
+from portfolio_marta.forms import CreateForm, TypeForm, CommentForm
 from portfolio_marta.owner import OwnerListView, OwnerDetailView, OwnerDeleteView
 
 from django.views import View
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class ArtListView(OwnerListView):
@@ -23,6 +23,12 @@ class ArtListView(OwnerListView):
 class ArtDetailView(OwnerDetailView):
     model = Art
     template_name = "portfolio_marta/art_detail.html"
+    def get(self, request, pk) :
+        x = Art.objects.get(id=pk)
+        comments = Comment.objects.filter(art=x).order_by('-updated_at')
+        comment_form = CommentForm()
+        context = { 'art' : x, 'comments': comments, 'comment_form': comment_form }
+        return render(request, self.template_name, context)
 
 class ArtCreateView(LoginRequiredMixin, View):
     template_name = 'portfolio_marta/art_form.html'
@@ -133,3 +139,19 @@ class TypeUpdateView(LoginRequiredMixin, View):
 
 class TypeDeleteView(OwnerDeleteView):
     model = Type
+
+class CommentCreateView(LoginRequiredMixin, View):
+    def post(self, request, pk) :
+        a = get_object_or_404(Art, id=pk)
+        comment = Comment(text=request.POST['comment'], owner=request.user, art=a)
+        comment.save()
+        return redirect(reverse('portfolio_marta:art_detail', args=[pk]))
+
+class CommentDeleteView(OwnerDeleteView):
+    model = Comment
+    template_name = "portfolio_marta/comment_delete.html"
+
+    # https://stackoverflow.com/questions/26290415/deleteview-with-a-dynamic-success-url-dependent-on-id
+    def get_success_url(self):
+        art = self.object.art
+        return reverse('portfolio_marta:art_detail', args=[art.id])
