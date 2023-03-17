@@ -18,12 +18,14 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.static import serve
 from django.contrib.auth import views as auth_views
+from django.conf import settings
 
 urlpatterns = [
     path('', include('home.urls')),
     path('portfolio_marta/', include('portfolio_marta.urls')), 
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),  
+    path('accounts/', include('django.contrib.auth.urls')),
+    re_path(r'^oauth/', include('social_django.urls', namespace='social')),  
 
 ]
 
@@ -43,4 +45,14 @@ urlpatterns += [
         }
     ),
 ]
+
+try:
+    from . import github_settings
+    social_login = 'registration/login_social.html'
+    urlpatterns.insert(0,
+                       path('accounts/login/', auth_views.LoginView.as_view(template_name=social_login))
+                       )
+    print('Using', social_login, 'as the login template')
+except:
+    print('Using registration/login.html as the login template')
 

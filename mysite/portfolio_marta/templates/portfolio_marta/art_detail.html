@@ -50,7 +50,7 @@
 </p>
 {% endif %}
 {% for comment in comments %}
-<p> {{ comment.text }} | {{ comment.owner}}
+<p> {{ comment.text }} | by {{ comment.owner}}
 ({{ comment.updated_at|naturaltime }})
 {% if user == comment.owner %}
 <a href="{% url 'portfolio_marta:art_comment_delete' comment.id %}"><i class="fa fa-trash"></i></a>
