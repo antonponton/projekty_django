@@ -25,8 +25,12 @@
         
             <button class="dropbtn" style="font-family: 'Dancing Script', cursive, arial, sans-serif; font-size: 1em;"><img style="width: 25px;" src="{{ user|gravatar:60 }}"/> Menu</button>
             <div class="dropdown-content">
+                {% if perms.portfolio_marta.add_art %}
                 <a href="{% url 'portfolio_marta:art_create' %}" >Add picture</a>
+                {% endif %}
+                {% if perms.portfolio_marta.add_type %}
                 <a href="{% url 'portfolio_marta:type_create' %}" >Add type</a>
+                {% endif %}
                 <a href="{% url 'portfolio_marta:types' %}" >Types list</a>
                 <a href="{% url 'logout' %}?next={% url 'portfolio_marta:all' %}">Logout</a>
         

@@ -9,6 +9,7 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.contrib.humanize.templatetags.humanize import naturaltime
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 class ArtListView(OwnerListView):
     model = Art
@@ -57,9 +58,10 @@ class ArtDetailView(OwnerDetailView):
         context = { 'art' : x, 'comments': comments, 'comment_form': comment_form }
         return render(request, self.template_name, context)
 
-class ArtCreateView(LoginRequiredMixin, View):
+class ArtCreateView(PermissionRequiredMixin, View):
     template_name = 'portfolio_marta/art_form.html'
     success_url = reverse_lazy('portfolio_marta:all')
+    permission_required = ('portfolio_marta.add_art', 'portfolio_marta.change_art')
 
     def get(self, request, pk=None):
         form = CreateForm()
@@ -81,9 +83,10 @@ class ArtCreateView(LoginRequiredMixin, View):
         return redirect(self.success_url)
     
 
-class ArtUpdateView(LoginRequiredMixin, View):
+class ArtUpdateView(PermissionRequiredMixin, View):
     template_name = 'portfolio_marta/art_form.html'
     success_url = reverse_lazy('portfolio_marta:all')
+    permission_required = ('portfolio_marta.add_art', 'portfolio_marta.change_art')
 
     def get(self, request, pk):
         pic = get_object_or_404(Art, id=pk, owner=self.request.user)
@@ -119,9 +122,10 @@ class TypeListView(OwnerListView):
     model = Type
     template_name = "portfolio_marta/type_list.html"
 
-class TypeCreateView(LoginRequiredMixin, View):
+class TypeCreateView(PermissionRequiredMixin, View):
     template_name = 'portfolio_marta/type_form.html'
     success_url = reverse_lazy('portfolio_marta:types')
+    permission_required = ('portfolio_marta.add_type', 'portfolio_marta.change_type')
 
     def get(self, request, pk=None):
         form = TypeForm()
@@ -141,9 +145,10 @@ class TypeCreateView(LoginRequiredMixin, View):
         form.save_m2m()
         return redirect(self.success_url)
 
-class TypeUpdateView(LoginRequiredMixin, View):
+class TypeUpdateView(PermissionRequiredMixin, View):
     template_name = 'portfolio_marta/type_form.html'
     success_url = reverse_lazy('portfolio_marta:types')
+    permission_required = ('portfolio_marta.add_type', 'portfolio_marta.change_type')
 
     def get(self, request, pk):
         pic = get_object_or_404(Type, id=pk, owner=self.request.user)
