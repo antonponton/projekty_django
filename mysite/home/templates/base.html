@@ -4,115 +4,21 @@
     <title>{% block title %}Projekty Django{% endblock %}</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Sono:wght@300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/v4-shims.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Sono:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/v4-shims.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
     crossorigin="anonymous"></script>
-<script
-  src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
-  crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+    crossorigin="anonymous"></script>
     <style>
     body {
         font-family: 'Sono', arial, sans-serif;
-        background-position: 50%;
-      }
-      
-      nav {
-          border-radius:20px;
-          background-color: rgb(95, 45, 124);
-          height : 7em;
-          font-family: arial, sans-serif;
-          border:3px solid rgba(0,0,0,0.2);
-      }
-      
-      nav ul { 
-          list-style-type: none;
-          padding-left: 0;
-          vertical-align: middle;
-      }
-      
-      nav li {
-        display: inline-block;
-        vertical-align: middle;
-      }
-      
-      nav li a {
-        color: rgb(255, 255, 255);
-        text-decoration: none;
-      }
-    
-      
-      .left {
-          position: absolute;
-          top: 3em;
-          left: 10%;
-      }
-      
-      .right {
-          position: absolute;
-          top: 3em;
-          right: 10%;
-      }
-      .right2 {
-          position: absolute;
-          top: 4em;
-          right: 20%;
-      }
-      .right3 {
-          position: absolute;
-          top: 4em;
-          right: 25%;
-      }
-      /* Style The Dropdown Button */
-      .dropbtn {
-        background-color: rgb(95, 45, 124);
-        color: rgb(255, 255, 255);
-        padding: 16px;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-      }
-      
-      /* The container <div> - needed to position the dropdown content */
-      .dropdown {
-        position: relative;
-        display: inline-block;
-      }
-      
-      /* Dropdown Content (Hidden by Default) */
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f9f9f9;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 1;
-      }
-      
-      /* Links inside the dropdown */
-      .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-      }
-      
-      /* Change color of dropdown links on hover */
-      .dropdown-content a:hover {background-color: #f1f1f1}
-      
-      /* Show the dropdown menu on hover */
-      .dropdown:hover .dropdown-content {
-        display: block;
-      }
-      
-      /* Change the background color of the dropdown button when the dropdown content is shown */
-      .dropdown:hover .dropbtn {
-        background-color: rgb(83, 39, 109);
-      }
+        }
     </style>
+{% block menu_head %} 
+{% endblock %}
 {% block head %} 
 {% endblock %}
 </head>

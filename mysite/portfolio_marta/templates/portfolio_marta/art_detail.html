@@ -40,12 +40,11 @@
 {% if art.tags.all %}
 <p>Tags:
   {% for tag in art.tags.all %}
-  <span style="border:1px grey solid; background-color: rgb(185, 185, 185);">{{ tag }}</span>
+  <span style="border:1px rgba(0,0,0,0.2);border-radius:3px; background-color: rgb(204, 183, 216);">{{ tag }}</span>
   {% endfor %}
 </p>
 {% endif %}
 {% if user.is_authenticated %}
-
 <p>
 {% load crispy_forms_tags %}
 <form method="post" action="{% url 'portfolio_marta:art_comment_create' art.id %}">
@@ -56,16 +55,16 @@
 </form>
 </p>
 {% endif %}
+<p>Comments:
 {% for comment in comments %}
-<p> {{ comment.text }} | by {{ comment.owner}}
-({{ comment.updated_at|naturaltime }})
+<p> {{ comment.text }} | by {{ comment.owner}} ({{ comment.updated_at|naturaltime }})
 {% if user == comment.owner %}
 <a href="{% url 'portfolio_marta:art_comment_delete' comment.id %}"><i class="fa fa-trash"></i></a>
 {% endif %}
 </p>
 {% endfor %}
+</p>
 <p>
-<p>
-    <a href="{% url 'portfolio_marta:all' %}">All arts</a>
+<a href="{% url 'portfolio_marta:all' %}"> &larr; Back</a>
 </p>
 {% endblock %}

@@ -1,29 +1,92 @@
 {% extends "base.html" %}
+{% block menu_head %}
+<style>
+      nav {
+          border-radius:20px;
+          background-color: rgb(95, 45, 124);
+          height : 6em;
+          border:3px solid rgba(0,0,0,0.2);
+      }
+      
+      nav ul { 
+          list-style-type: none;
+          margin: 0;
+          padding: 0;          
+      }
+      
+      nav li {
+        float: right;
+      }
+      
+      nav li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+      /* Style The Dropdown Button */
+      .dropbtn {
+        background-color: rgb(95, 45, 124);
+        color: rgb(255, 255, 255);
+        padding: 15px;
+        border: none;
+        cursor: pointer;
+        
+      }
+      
+      /* The container <div> - needed to position the dropdown content */
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      
+      /* Dropdown Content (Hidden by Default) */
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+      }
+      
+      /* Links inside the dropdown */
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+      
+      /* Change color of dropdown links on hover */
+      .dropdown-content a:hover {background-color: #f1f1f1}
+      
+      /* Show the dropdown menu on hover */
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+      
+      /* Change the background color of the dropdown button when the dropdown content is shown */
+      .dropdown:hover .dropbtn {
+        background-color: rgb(83, 39, 109);
+      }
+</style>
+{% endblock %}
 {% block navbar %}
 {% load app_tags %}
 <nav>
     <ul>
-      <div class="left">
-      <li>
-      <a style="font-family: 'Dancing Script', cursive, arial, sans-serif; font-size: 3em;" href="{% url 'portfolio_marta:all' %}" >Portfolio Marty G</a>
-      </li>
-      </div>
-      <div class="right2">
         <li>
         <a style="font-family: 'Dancing Script', cursive, arial, sans-serif; font-size: 1em;" href="{% url 'portfolio_marta:info' %}" >Info</a>
         </li>
-    </div>
-    <div class="right3">
         <li>
         <a style="font-family: 'Dancing Script', cursive, arial, sans-serif; font-size: 1em;" href="{% url 'portfolio_marta:contact' %}" >Contact</a>
         </li>
-    </div>
         {% if user.is_authenticated %}
         <li>
-        <div class="right">
         <div class="dropdown">
-        
-            <button class="dropbtn" style="font-family: 'Dancing Script', cursive, arial, sans-serif; font-size: 1em;"><img style="width: 25px;" src="{{ user|gravatar:60 }}"/> Menu</button>
+            <button class="dropbtn" style="font-family: 'Dancing Script', cursive, arial, sans-serif; font-size: 1em;"><img style="width: 25px;vertical-align: text-top;" src="{{ user|gravatar:60 }}"/> Menu</button>
             <div class="dropdown-content">
                 {% if perms.portfolio_marta.add_art %}
                 <a href="{% url 'portfolio_marta:art_create' %}" >Add picture</a>
@@ -33,18 +96,18 @@
                 {% endif %}
                 <a href="{% url 'portfolio_marta:types' %}" >Types list</a>
                 <a href="{% url 'logout' %}?next={% url 'portfolio_marta:all' %}">Logout</a>
-        
-        </div>
-        </div>
+            </div>
         </li>
         {% else %}
-        <div class="right">
         <li>
         <a style="font-family: 'Dancing Script', cursive, arial, sans-serif; font-size: 1em;" href="{% url 'login' %}?next={% url 'portfolio_marta:all' %} ">Login</a>
         </li>
-        </div>
-
         {% endif %}
+        <div style="float: left">
+            <li>
+            <a style="font-family: 'Dancing Script', cursive, arial, sans-serif; font-size: 3em;" href="{% url 'portfolio_marta:all' %}" >Portfolio Marty G</a>
+            </li>
+        </div>
     </ul>
 </nav>
 {% endblock %}
