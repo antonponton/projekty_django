@@ -1,6 +1,6 @@
 {% extends "base_menu.html" %}
 {% block title %}Portfolio{% endblock %}
-{% load humanize %} 
+{% load humanize %}
 {% block head %}
     <style>
         .overlay{
@@ -46,6 +46,8 @@
 {% endif %}
 {% if user.is_authenticated %}
 <p>
+<br clear="all"/>
+
 {% load crispy_forms_tags %}
 <form method="post" action="{% url 'portfolio_marta:art_comment_create' art.id %}">
     {% csrf_token %}
