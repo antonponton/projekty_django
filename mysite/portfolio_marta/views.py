@@ -1,5 +1,5 @@
 from portfolio_marta.models import Art, Type, Comment, Fav
-from portfolio_marta.forms import CreateForm, TypeForm, CommentForm
+from portfolio_marta.forms import CreateForm, TypeForm, CommentForm, RegisterForm
 from portfolio_marta.owner import OwnerListView, OwnerDetailView, OwnerDeleteView
 
 from django.views import View
@@ -217,3 +217,13 @@ class DeleteFavoriteView(LoginRequiredMixin, View):
             pass
 
         return HttpResponse()
+def register(response):
+    if response.method == "POST":
+        form = RegisterForm(response.POST)
+        if form.is_valid():
+            form.save()
+        return redirect("portfolio_marta:all")
+    else:
+        form = RegisterForm()
+
+    return render(response, "registration/register.html", {"form":form})

@@ -2,6 +2,8 @@ from django import forms
 from portfolio_marta.models import Art, Type
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from portfolio_marta.humanize import naturalsize
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 class CreateForm(forms.ModelForm):
     max_upload_limit = 2 * 1024 * 1024
@@ -46,3 +48,10 @@ class TypeForm(forms.ModelForm):
         
 class CommentForm(forms.Form):
     comment = forms.CharField(required=True, max_length=500, min_length=3, strip=True)
+
+class RegisterForm(UserCreationForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ["username", "email", "password1", "password2"]
