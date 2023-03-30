@@ -1,15 +1,16 @@
 from portfolio_marta.models import Art, Type, Comment, Fav
-from portfolio_marta.forms import CreateForm, TypeForm, CommentForm, RegisterForm
+from portfolio_marta.forms import CreateForm, TypeForm, CommentForm, NewUserForm
 from portfolio_marta.owner import OwnerListView, OwnerDetailView, OwnerDeleteView
 
 from django.views import View
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Q
 from django.contrib.humanize.templatetags.humanize import naturaltime
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth import login
+from django.contrib import messages
 
 class ArtListView(OwnerListView):
     model = Art
@@ -217,13 +218,14 @@ class DeleteFavoriteView(LoginRequiredMixin, View):
             pass
 
         return HttpResponse()
-def register(response):
-    if response.method == "POST":
-        form = RegisterForm(response.POST)
-        if form.is_valid():
-            form.save()
-        return redirect("portfolio_marta:all")
-    else:
-        form = RegisterForm()
-
-    return render(response, "registration/register.html", {"form":form})
+def register_request(request):
+	if request.method == "POST":
+		form = NewUserForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			login(request, user, 'django.contrib.auth.backends.ModelBackend')
+			messages.success(request, "Registration successful." )
+			return redirect("portfolio_marta:all")
+		messages.error(request, "Unsuccessful registration. Invalid information.")
+	form = NewUserForm()
+	return render (request=request, template_name="registration/register.html", context={"register_form":form})

@@ -49,9 +49,17 @@ class TypeForm(forms.ModelForm):
 class CommentForm(forms.Form):
     comment = forms.CharField(required=True, max_length=500, min_length=3, strip=True)
 
-class RegisterForm(UserCreationForm):
-    email = forms.EmailField()
 
-    class Meta:
-        model = User
-        fields = ["username", "email", "password1", "password2"]
+class NewUserForm(UserCreationForm):
+	email = forms.EmailField(required=True)
+
+	class Meta:
+		model = User
+		fields = ("username", "email", "password1", "password2")
+
+	def save(self, commit=True):
+		user = super(NewUserForm, self).save(commit=False)
+		user.email = self.cleaned_data['email']
+		if commit:
+			user.save()
+		return user

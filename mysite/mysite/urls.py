@@ -19,13 +19,14 @@ from django.urls import path, include, re_path
 from django.views.static import serve
 from django.contrib.auth import views as auth_views
 from django.conf import settings
-from portfolio_marta import views as v
+from portfolio_marta import views as portfolio_views
+
 urlpatterns = [
     path('', include('home.urls')),
     path('portfolio_marta/', include('portfolio_marta.urls')), 
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('register/', v.register, name="register"),
+    path("register/", portfolio_views.register_request, name="register"),
     re_path(r'^oauth/', include('social_django.urls', namespace='social')),  
 
 ]

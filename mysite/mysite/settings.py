@@ -22,7 +22,7 @@ APP_NAME = 'Projekty Django'
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
+SECRET_KEY = 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -156,11 +156,12 @@ except:
 # https://python-social-auth.readthedocs.io/en/latest/configuration/django.html#authentication-backends
 # https://simpleisbetterthancomplex.com/tutorial/2016/10/24/how-to-add-social-login-to-django.html
 AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
     'social_core.backends.github.GithubOAuth2',
     # 'social_core.backends.twitter.TwitterOAuth',
     # 'social_core.backends.facebook.FacebookOAuth2',
 
-    'django.contrib.auth.backends.ModelBackend',
+ 
 )
 
 LOGOUT_REDIRECT_URL = '/'
