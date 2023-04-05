@@ -18,7 +18,6 @@ class ArtListView(OwnerListView):
     def get(self, request) :
         art_list = Art.objects.all()
         type_list = Type.objects.all()
-
         favorites = list()
         if request.user.is_authenticated:
             # rows = [{'id': 2}, {'id': 4} ... ]  (A list of rows)
@@ -26,6 +25,7 @@ class ArtListView(OwnerListView):
             # favorites = [2, 4, ...] using list comprehension
             favorites = [ row['id'] for row in rows ]
 
+        
 
         strval =  request.GET.get("search", False)
         if strval :
@@ -44,8 +44,11 @@ class ArtListView(OwnerListView):
         # Augment the art_list
         for obj in art_list:
             obj.natural_updated = naturaltime(obj.updated_at)
+        
+        for art in art_list:
+            total_fav = art.total_fav()
 
-        ctx = {'art_list' : art_list, 'favorites': favorites, 'search': strval, 'type_list' : type_list}
+        ctx = {'art_list' : art_list, 'favorites': favorites, 'search': strval, 'type_list' : type_list,'total_fav' : total_fav  }
         return render(request, self.template_name, ctx)
 
 
@@ -56,7 +59,10 @@ class ArtDetailView(OwnerDetailView):
         x = Art.objects.get(id=pk)
         comments = Comment.objects.filter(art=x).order_by('-updated_at')
         comment_form = CommentForm()
-        context = { 'art' : x, 'comments': comments, 'comment_form': comment_form }
+        favs = get_object_or_404(Art, id=pk)
+        total_fav = favs.total_fav()
+        
+        context = { 'art' : x, 'comments': comments, 'comment_form': comment_form,'total_fav' : total_fav  }
         return render(request, self.template_name, context)
 
 class ArtCreateView(PermissionRequiredMixin, View):
@@ -218,6 +224,7 @@ class DeleteFavoriteView(LoginRequiredMixin, View):
             pass
 
         return HttpResponse()
+    
 def register_request(request):
 	if request.method == "POST":
 		form = NewUserForm(request.POST)

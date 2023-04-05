@@ -30,12 +30,13 @@
 {% endif %}
 </span>
 <h1>{{ art.title }}</h1>
+<p>Likes({{ total_fav }})</p>
 {% if art.content_type %}
 <img style="float:right; max-width:50%;" src="{% url 'portfolio_marta:art_picture' art.id %}"
     onclick="document.getElementById('overlay').style.display = 'block';">
 {% endif %}
 <p>
-{{ art.text }}
+{{ art.text }} 
 </p>
 {% if art.tags.all %}
 <p>Tags:

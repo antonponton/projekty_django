@@ -27,6 +27,11 @@
 {% endblock %}
 {% block content %}
 <h1>List of art pieces:</h1>
+    {% if not user.is_authenticated %}
+    <p>
+      Please login to leave a comment or like.
+    </p>
+    {% endif %}
 <div style="float:right">
   <!-- https://www.w3schools.com/howto/howto_css_search_button.asp -->
   <form>
@@ -80,6 +85,9 @@
             </a>
             <br/>
             {% endif %}
+            <p>
+              Likes ({{ art.total_fav }})
+            </p>
             <div >
                 {% if art.text|length < 100 %}
                     {{ art.text }}

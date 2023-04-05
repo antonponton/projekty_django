@@ -18,6 +18,9 @@ class Art(models.Model) :
         through='Fav', related_name='favorite_arts')
     tags = TaggableManager(blank=True)
 
+    def total_fav(self):
+        return self.favorites.count()
+
     def __str__(self):
         return self.title
 
