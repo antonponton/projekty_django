@@ -1,16 +1,41 @@
 <!DOCTYPE html>
-<html>
-<head>
-<title>Projekty Django</title>
-</head>
-<body>
-<h1>Lista projektów:</h1>
-<p>
-    <ul>
-        <li>
-            <a href="/portfolio_marta">Portfolio website for DJ4E course</a>
-        </li>
-    </ul>
-</p>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=screen-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@200;400;600&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <title>Personal Portfolio Webpage</title>
+  </head>
+  <body>
+    <nav id="navbar" class="nav">
+      <ul class="nav-list">
+        <li id="nav-link"><a href="#welcome-section">About</a></li>
+        <li id="nav-link"><a href="#projects">Work</a></li>
+        <li id="nav-link"><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <section id="welcome-section" class="welcome-section">
+      <h1>Antoni Godlejewski</h1>
+      <p>Software Developer</p>
+    </section>
+    <section id="projects" class="projects">
+      <h2 class="projects-header">My projects</h2>
+      <div class="projects-grid">
+        <a class="project-tile" target="_blank" href="/portfolio_marta">
+        <p class="project-title">Portfolio website made with Django</p>
+        </a>
+      </div>
+    </section>
+    <section id="contact" class="contact">
+      <h2 class="contact-header">Contact</h2>
+      <div class="contact-links">
+        <a id="profile-link" class="profile-link" href="https://www.linkedin.com/in/antoni-godlejewski/" target="_blank">LinkedIn</a>
+        <a id="profile-link" class="profile-link" href="https://github.com/antonponton" target="_blank">GitHub</a>
+      </div>
+    </section>
+  </body>
 </html>
