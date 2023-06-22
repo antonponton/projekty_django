@@ -46,6 +46,46 @@ class AuthorListViewTest(TestCase):
         self.assertTrue(response.context['is_paginated'] == True)
         self.assertEqual(len(response.context['author_list']), 3)
 
+class AuthorCreateViewTest(TestCase):
+    def setUp(self):
+        test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
+        test_user2 = User.objects.create_user(username='testuser2', password='2HJ1vRV0Z&3iD')
+
+        permission = Permission.objects.get(name='Set book as returned')
+        test_user1.user_permissions.add(permission)
+        test_user1.save()
+
+    
+    def test_view_url_exists_at_desired_location(self):
+        login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get('/catalog/author/create/')
+        self.assertEqual(response.status_code, 200)
+    
+    def test_view_url_accessible_by_name(self):
+        login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('author-create'))
+        self.assertEqual(response.status_code, 200)
+    
+    def test_view_uses_correct_template(self):
+        login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('author-create'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'catalog/author_form.html')
+    
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get(reverse('author-create'))
+        self.assertRedirects(response, '/accounts/login/?next=/catalog/author/create/')
+
+    def test_forbidden_if_logged_in_but_not_correct_permission(self):
+        login = self.client.login(username='testuser2', password='2HJ1vRV0Z&3iD')
+        response = self.client.get(reverse('author-create'))
+        self.assertEqual(response.status_code, 403)
+
+    def test_logged_in_with_permission_author_create(self):
+        login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
+        response = self.client.get(reverse('author-create'))
+        self.assertEqual(response.status_code, 200)
+
 class LoanedBookInstancesByUserListViewTest(TestCase):
     def setUp(self):
         test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
