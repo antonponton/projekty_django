@@ -1,6 +1,11 @@
 from django.test import TestCase
+from django.contrib.auth.models import User
+from django.utils import timezone
 
-from catalog.models import Author, Genre, Language, Book
+from catalog.models import Author, Genre, Language, Book, BookInstance
+
+import datetime
+import uuid
 
 class AuthorModelTest(TestCase):
     @classmethod
@@ -190,3 +195,94 @@ class BookModelTest(TestCase):
         book = Book.objects.get(id=1)
         self.assertEqual(book.display_genre(), 'Fantasy, Sci-Fi, Romance')
 
+class BookInstanceModelTest(TestCase):
+    def setUp(self):
+        test_user1 = User.objects.create_user(username='testuser1', password='1X<ISRUkw+tuK')
+
+        test_user1.save()
+
+        # Create a book
+        test_author = Author.objects.create(first_name='John', last_name='Smith')
+        test_genre = Genre.objects.create(name='Fantasy')
+        test_language = Language.objects.create(name='English')
+        test_book = Book.objects.create(
+            title='Book Title',
+            summary='My book summary',
+            isbn='ABCDEFG',
+            author=test_author,
+            language=test_language,
+        )
+
+        # Create genre as a post-step
+        genre_objects_for_book = Genre.objects.all()
+        test_book.genre.set(genre_objects_for_book) # Direct assignment of many-to-many types not allowed.
+        test_book.save()
+
+        # Create a BookInstance object for test_user1
+        return_date = datetime.date.today() + datetime.timedelta(days=5)
+        self.test_bookinstance = BookInstance.objects.create(
+            book=test_book,
+            imprint='Unlikely Imprint, 2016',
+            due_back=return_date,
+            borrower=test_user1,
+            status='o',
+        )
+
+    def test_id_label(self):
+        bookinstance = BookInstance.objects.get(id=self.test_bookinstance.pk)
+        field_label = bookinstance._meta.get_field('id').verbose_name
+        self.assertEqual(field_label, 'id')
+
+    def test_book_label(self):
+        bookinstance = BookInstance.objects.get(id=self.test_bookinstance.pk)
+        field_label = bookinstance._meta.get_field('book').verbose_name
+        self.assertEqual(field_label, 'book')
+
+    def test_imprint_label(self):
+        bookinstance = BookInstance.objects.get(id=self.test_bookinstance.pk)
+        field_label = bookinstance._meta.get_field('imprint').verbose_name
+        self.assertEqual(field_label, 'imprint')
+
+    def test_due_back_label(self):
+        bookinstance = BookInstance.objects.get(id=self.test_bookinstance.pk)
+        field_label = bookinstance._meta.get_field('due_back').verbose_name
+        self.assertEqual(field_label, 'due back')
+
+    def test_borrower_label(self):
+        bookinstance = BookInstance.objects.get(id=self.test_bookinstance.pk)
+        field_label = bookinstance._meta.get_field('borrower').verbose_name
+        self.assertEqual(field_label, 'borrower')
+
+    def test_status_label(self):
+        bookinstance = BookInstance.objects.get(id=self.test_bookinstance.pk)
+        field_label = bookinstance._meta.get_field('status').verbose_name
+        self.assertEqual(field_label, 'status')
+
+    def test_id_help_text(self):
+        bookinstance = BookInstance.objects.get(id=self.test_bookinstance.pk)
+        help_text = bookinstance._meta.get_field('id').help_text
+        self.assertEqual(help_text, 'Unique ID for this particular book across whole library')
+
+    def test_status_help_text(self):
+        bookinstance = BookInstance.objects.get(id=self.test_bookinstance.pk)
+        help_text = bookinstance._meta.get_field('status').help_text
+        self.assertEqual(help_text, 'Book availability')
+
+    def test_imprint_max_length(self):
+        bookinstance = BookInstance.objects.get(id=self.test_bookinstance.pk)
+        max_length = bookinstance._meta.get_field('imprint').max_length
+        self.assertEqual(max_length, 200)
+
+    def test_status_max_length(self):
+        bookinstance = BookInstance.objects.get(id=self.test_bookinstance.pk)
+        max_length = bookinstance._meta.get_field('status').max_length
+        self.assertEqual(max_length, 1)
+
+    def test_object_name(self):
+        bookinstance = BookInstance.objects.get(id=self.test_bookinstance.pk)
+        expected_object_name = f'{bookinstance.id} ({bookinstance.book.title})'
+        self.assertEqual(str(bookinstance), expected_object_name)
+
+    def test_is_overdue(self):
+        bookinstance = BookInstance.objects.get(id=self.test_bookinstance.pk)
+        self.assertFalse(bookinstance.is_overdue == True)
