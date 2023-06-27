@@ -37,8 +37,8 @@
             {% endif %}
             {% if user.is_authenticated %}
             <!-- Two hrefs with two stacked icons each - one showing and one hidden -->
-            <a href="#" onclick=
-                "favPost('{% url 'portfolio_marta:art_unfavorite' art.id %}', {{ art.id }} );return false;"
+            <a href="#" data-unfavorite-url="{% url 'portfolio_marta:art_unfavorite' art.id %}" data-art-id="{{ art.id }}" onclick=
+                "favPost(this.getAttribute('data-unfavorite-url'), this.getAttribute('data-art-id') );return false;"
                 {% if art.id not in favorites %}
                 style="display: none;"
                 {% endif %}
@@ -49,8 +49,8 @@
                 </span>
             </a>
             <!-- the second href -->
-            <a href="#" onclick=
-                "favPost('{% url 'portfolio_marta:art_favorite' art.id %}', {{ art.id }} );return false;"
+            <a href="#" data-favorite-url="{% url 'portfolio_marta:art_favorite' art.id %}" data-art-id="{{ art.id }}" onclick=
+                "favPost(this.getAttribute('data-favorite-url'), this.getAttribute('data-art-id') );return false;"
                 {% if art.id in favorites %}
                 style="display: none;"
                 {% endif %}

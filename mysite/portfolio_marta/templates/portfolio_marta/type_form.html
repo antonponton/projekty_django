@@ -8,7 +8,7 @@
       {% csrf_token %}
       {{ form|crispy }}
       <input type="submit" value="Submit">
-      <input type="submit" value="Cancel" onclick="window.location.href='{% url 'portfolio_marta:all' %}';return false;">
+      <input type="submit" value="Cancel" data-portfolio-marta-all-url="{% url 'portfolio_marta:all' %}" onclick="window.location.href=this.getAttribute('data-portfolio-marta-all-url');return false;">
     </form>
   </p>
 {% endblock %}
