@@ -11,6 +11,9 @@ from django.db.models import Q
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.contrib.auth import login
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.db.utils import IntegrityError
 
 class ArtListView(OwnerListView):
     model = Art
@@ -25,15 +28,8 @@ class ArtListView(OwnerListView):
             # favorites = [2, 4, ...] using list comprehension
             favorites = [ row['id'] for row in rows ]
 
-        
-
         strval =  request.GET.get("search", False)
         if strval :
-            # Simple title-only search
-            # objects = Post.objects.filter(title__contains=strval).select_related().order_by('-updated_at')[:10]
-
-            # Multi-field search
-            # __icontains for case-insensitive search
             query = Q(title__icontains=strval)
             query.add(Q(text__icontains=strval), Q.OR)
             query.add(Q(tags__name__in=[strval]), Q.OR)
@@ -41,7 +37,6 @@ class ArtListView(OwnerListView):
         else :
             art_list = Art.objects.all().order_by('-updated_at')[:10]
 
-        # Augment the art_list
         for obj in art_list:
             obj.natural_updated = naturaltime(obj.updated_at)
         
@@ -50,7 +45,6 @@ class ArtListView(OwnerListView):
 
         ctx = {'art_list' : art_list, 'favorites': favorites, 'search': strval, 'type_list' : type_list,'total_fav' : total_fav  }
         return render(request, self.template_name, ctx)
-
 
 class ArtDetailView(OwnerDetailView):
     model = Art
@@ -82,7 +76,6 @@ class ArtCreateView(PermissionRequiredMixin, View):
             ctx = {'form': form}
             return render(request, self.template_name, ctx)
 
-        # Add owner to the model before saving
         pic = form.save(commit=False)
         pic.owner = self.request.user
         pic.save()
@@ -190,16 +183,9 @@ class CommentDeleteView(OwnerDeleteView):
     model = Comment
     template_name = "portfolio_marta/comment_delete.html"
 
-    # https://stackoverflow.com/questions/26290415/deleteview-with-a-dynamic-success-url-dependent-on-id
     def get_success_url(self):
         art = self.object.art
         return reverse('portfolio_marta:art_detail', args=[art.id])
-    
-# csrf exemption in class based views
-# https://stackoverflow.com/questions/16458166/how-to-disable-djangos-csrf-validation
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from django.db.utils import IntegrityError
 
 @method_decorator(csrf_exempt, name='dispatch')
 class AddFavoriteView(LoginRequiredMixin, View):

@@ -34,7 +34,6 @@ class Type(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        """String for representing the Model object."""
         return self.name
     
 class Comment(models.Model) :
@@ -48,7 +47,6 @@ class Comment(models.Model) :
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # Shows up in the admin list
     def __str__(self):
         if len(self.text) < 15 : return self.text
         return self.text[:11] + ' ...'
@@ -57,7 +55,6 @@ class Fav(models.Model) :
     art = models.ForeignKey(Art, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
-    # https://docs.djangoproject.com/en/4.0/ref/models/options/#unique-together
     class Meta:
         unique_together = ('art', 'user')
 
