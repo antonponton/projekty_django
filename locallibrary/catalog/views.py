@@ -60,7 +60,7 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
             .order_by('due_back')
         )
 
-class allLoanedBooksListView(PermissionRequiredMixin,generic.ListView):
+class AllLoanedBooksListView(PermissionRequiredMixin,generic.ListView):
     model = BookInstance
     template_name = 'catalog/bookinstance_list_borrowed_all.html'
     paginate_by = 10
@@ -71,7 +71,6 @@ class allLoanedBooksListView(PermissionRequiredMixin,generic.ListView):
             BookInstance.objects.filter(status__exact='o')
             .order_by('due_back')
         )
-
 
 @login_required
 @permission_required('catalog.can_mark_returned', raise_exception=True)
